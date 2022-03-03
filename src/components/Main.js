@@ -15,7 +15,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             .getUserInfo()
             .then((res) => {
                 setUserName(res.name);
-                setUserDescription(res.about);
+                setUserDescription(res.description);
                 setUserAvatar(res.avatar);
             })
             .catch((error) => console.log(error));
@@ -30,7 +30,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             .catch((error) => console.log(error));
     }, []);
 
-    const section = () => {
+    const template = () => {
         if (cards.length > 0) {
             return cards.map((card) => (
                 <Card card={card} onCardClick={onCardClick} key={`card${card._id}`} />
@@ -61,7 +61,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
 
             </section>
             <section className="cards">
-                {section()}
+                {template()}
             </section>
         </main>
     );
