@@ -9,7 +9,7 @@ function ImagePopup({ onClose, card }) {
       document.addEventListener("keydown", handleEscClose);
     }
     return () => document.removeEventListener("keydown", handleEscClose);
-  }, [card]);
+  });
 
   return (
     <div className={card ? `popup popup_type_bigimage popup_opened` : `popup popup_image`} id="image_popup" onClick={onClose}>

@@ -71,8 +71,8 @@ export class Api {
 
             method: 'DELETE',
             headers: this._headers
-        }).
-            then((response) => this._handleResponse(response))
+        })
+            .then((response) => this._handleResponse(response))
     }
 
 

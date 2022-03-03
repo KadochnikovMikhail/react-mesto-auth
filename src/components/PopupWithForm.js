@@ -9,7 +9,7 @@ function PopupWithForm({ title, name, children, isOpen, onClose }) {
             document.addEventListener("keydown", handleEscClose);
         }
         return () => document.removeEventListener("keydown", handleEscClose);
-    }, [isOpen]);
+    });
 
     return (
             <div className={isOpen ? `popup ${name} popup_opened` : `popup ${name}`} onClick={onClose}>
