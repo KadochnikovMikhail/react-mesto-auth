@@ -1,15 +1,7 @@
-import { useEffect } from "react";
+
 import closeBtn from '../images/CloseIcon.svg';
 
 function ImagePopup({ onClose, card }) {
-  const handleEscClose = (e) => e.key === "Escape" && onClose(e);
-
-  useEffect(() => {
-    if (card) {
-      document.addEventListener("keydown", handleEscClose);
-    }
-    return () => document.removeEventListener("keydown", handleEscClose);
-  });
 
   return (
     <div className={card ? `popup popup_type_bigimage popup_opened` : `popup popup_image`} id="image_popup" onClick={onClose}>

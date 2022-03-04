@@ -1,15 +1,8 @@
-import { useEffect } from "react";
+
 import closeBtn from '../images/CloseIcon.svg';
 
-function PopupWithForm({ title, name, children, isOpen, onClose }) {
-    const handleEscClose = (e) => e.key === "Escape" && onClose(e);
 
-    useEffect(() => {
-        if (isOpen) {
-            document.addEventListener("keydown", handleEscClose);
-        }
-        return () => document.removeEventListener("keydown", handleEscClose);
-    });
+function PopupWithForm({ title, name, children, isOpen, onClose }) {
 
     return (
             <div className={isOpen ? `popup ${name} popup_opened` : `popup ${name}`} onClick={onClose}>

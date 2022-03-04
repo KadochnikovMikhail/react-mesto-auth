@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // import closeBtn from '../images/CloseIcon.svg';
 import Header from './Header';
@@ -6,7 +6,7 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from "./PopupWithForm";
 import  ImagePopup  from "./ImagePopup";
-import "../index.css";
+
 
 function App() {
 
@@ -20,20 +20,23 @@ function App() {
   const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
   const handleCardClick = (card) => setSelectedCard(card);
 
-  const closeAllPopups = (evt) => {
-    if (
-      evt.type === "keydown" ||
-      evt.target.classList.contains("popup_opened") ||
-      evt.target.classList.contains("popup__closebutton-image") ||
-      evt.target.classList.contains("popup__overlay")
-    ) {
+  const closeAllPopups = () => {
       setIsAddPlacePopupOpen(false);
       setIsEditAvatarPopupOpen(false);
       setIsEditProfilePopupOpen(false);
-      setSelectedCard(null);
-    }
+      setSelectedCard(null)
   };
+    useEffect(() => {
+        const handleEscClose = (e) => {
+            if (e.key === "Escape") {
+                closeAllPopups();
+            }
+        };
 
+        document.addEventListener("keydown", handleEscClose);
+
+        return () => document.removeEventListener("keydown", handleEscClose);
+    }, []);
 
   return (
 
