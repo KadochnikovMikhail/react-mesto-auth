@@ -10,7 +10,7 @@
 https://mesto-react-gamma.vercel.app/
 
 ## Используемые технологии
-* Стек: HTML & CSS
+* Стек: HTML, CSS, React.js
 * Методология: БЭМ, ООП
 * Файловая структура: Nested БЭМ
 * Flexbox и Grid Layout для создания сеток
