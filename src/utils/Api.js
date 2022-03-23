@@ -1,5 +1,5 @@
-export class Api {
-    constructor({ address, headers }) {
+class Api {
+    constructor({address, headers}) {
 
         this._address = address
         this._headers = headers
@@ -15,7 +15,7 @@ export class Api {
     }
 
 
-    getInitialCards() { 
+    getInitialCards() {
 
         return fetch(`${this._address}/cards`, {
 
@@ -25,7 +25,7 @@ export class Api {
     }
 
 
-    getUserInfo() { 
+    getUserInfo() {
         return fetch(`${this._address}/users/me`, {
 
             headers: this._headers
@@ -42,7 +42,7 @@ export class Api {
             body: JSON.stringify({
 
                 name: userData.name,
-                about: userData.description,
+                about: userData.about,
             })
         })
             .then((response) => this._handleResponse(response))
@@ -58,14 +58,14 @@ export class Api {
             body: JSON.stringify({
 
                 name: cardObject.name,
-                link: cardObject.description
+                link: cardObject.link
             })
         })
             .then((response) => this._handleResponse(response))
     }
 
 
-    removeCard(id) { 
+    removeCard(id) {
 
         return fetch(`${this._address}/cards/${id}`, {
 
@@ -75,45 +75,31 @@ export class Api {
             .then((response) => this._handleResponse(response))
     }
 
-
-    putLike(id) {
-
-        return fetch(`${this._address}/cards/${id}/likes`, {
-
-            method: 'PUT',
-            headers: this._headers
-        })
-            .then((response) => this._handleResponse(response))
-    }
-
-
-    removeLike(id) {
-
-        return fetch(`${this._address}/cards/${id}/likes`, {
-
-            method: 'DELETE',
-            headers: this._headers
-        })
-            .then((response) => this._handleResponse(response))
-    }
-
-
     updateAvatar(userData) {
-
+        console.log (userData)
         return fetch(`${this._address}/users/me/avatar`, {
 
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
 
-                avatar: userData.avatar
+                avatar: userData,
+
             })
         })
             .then((response) => this._handleResponse(response))
+
+    }
+    changeLikeCardStatus(id, isLiked) {
+        return fetch(`${this._address}/cards/${id}/likes`, {
+            method: isLiked ? 'PUT' : 'DELETE',
+            headers: this._headers
+        })
+            .then(this._handleResponse)
     }
 }
 
-export  const api = new Api({
+    const api = new Api({
 
     address: 'https://mesto.nomoreparties.co/v1/cohort-35',
     headers: {
@@ -121,3 +107,4 @@ export  const api = new Api({
         'Content-Type': 'application/json'
     }
 })
+export default api;
