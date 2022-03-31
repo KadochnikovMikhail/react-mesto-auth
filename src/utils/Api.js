@@ -1,8 +1,10 @@
+import {address, token, addressAuth} from './constants.js';
 class Api {
-    constructor({address, headers}) {
+    constructor(address, token, addressAuth) {
 
         this._address = address
-        this._headers = headers
+        this._token = token;
+        this._addressAuth = addressAuth;
     }
 
 
@@ -19,7 +21,9 @@ class Api {
 
         return fetch(`${this._address}/cards`, {
 
-            headers: this._headers
+            headers: {
+                authorization: this._token
+            }
         })
             .then((response) => this._handleResponse(response))
     }
@@ -28,7 +32,9 @@ class Api {
     getUserInfo() {
         return fetch(`${this._address}/users/me`, {
 
-            headers: this._headers
+            headers: {
+                authorization: this._token
+            }
         })
             .then((response) => this._handleResponse(response))
     }
@@ -38,7 +44,10 @@ class Api {
         return fetch(`${this._address}/users/me`, {
 
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
 
                 name: userData.name,
@@ -54,7 +63,10 @@ class Api {
         return fetch(`${this._address}/cards`, {
 
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
 
                 name: cardObject.name,
@@ -70,7 +82,10 @@ class Api {
         return fetch(`${this._address}/cards/${id}`, {
 
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
         })
             .then((response) => this._handleResponse(response))
     }
@@ -80,7 +95,10 @@ class Api {
         return fetch(`${this._address}/users/me/avatar`, {
 
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
 
                 avatar: userData,
@@ -93,18 +111,55 @@ class Api {
     changeLikeCardStatus(id, isLiked) {
         return fetch(`${this._address}/cards/${id}/likes`, {
             method: isLiked ? 'PUT' : 'DELETE',
-            headers: this._headers
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
         })
             .then(this._handleResponse)
     }
+
+    register(email, password){
+        return fetch(`${this._addressAuth}/signup`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "password": password,
+                "email": email
+            })
+        })
+            .then(this._handleResponse);
+    };
+
+    login(email, password){
+        return fetch(`${this._addressAuth}/signin`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "password": password,
+                "email": email
+            })
+        })
+            .then(this._handleResponse);
+    };
+
+    getContent(token) {
+        return fetch(`${this._addressAuth}/users/me`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(res => res.json())
+            .then(data => data)
+    }
 }
 
-    const api = new Api({
-
-    address: 'https://mesto.nomoreparties.co/v1/cohort-35',
-    headers: {
-        authorization: '5e183b19-cf6d-4424-b043-3b49b544e6cf',
-        'Content-Type': 'application/json'
-    }
-})
+    const api = new Api(address, token, addressAuth)
 export default api;

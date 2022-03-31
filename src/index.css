@@ -20,6 +20,8 @@
 
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__sign/header__sign.css);
+@import url(./blocks/header/__email/header__email.css);
 
 @import url(./blocks/page/page.css);
 @import url(./blocks/html/html.css);
@@ -53,3 +55,16 @@
 @import url(./blocks/popup/__bigimage/popup__bigimage.css);
 
 @import url(./blocks/error/error.css);
+@import url(./blocks/sign/sign.css);
+@import url(./blocks/sign/__form/sign__form.css);
+@import url(./blocks/sign/__form/_title/sign__form_title.css);
+@import url(./blocks/sign/__form/_field/sign__form_field.css);
+@import url(./blocks/sign/__form/_input/form__input.css);
+
+@import url(./blocks/sign/__button/sign__button.css);
+@import url(./blocks/sign/__caption/sign__caption.css);
+@import url(./blocks/sign/__caption/_link/sign__caption-link.css);
+@import url(./blocks/sign/__caption/_text/sign__caption_text.css);
+@import url(./blocks/popup/__image/popup__image.css);
+@import url(./blocks/popup/__title/popup__title.css);
+
