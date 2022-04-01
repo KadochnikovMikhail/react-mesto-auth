@@ -5,7 +5,7 @@
     font-size: 18px;
     line-height: 22px;
     text-align: right;
-    color: white;
+    color: #A9A9A9;
     align-self: flex-end;
     text-decoration: none;
     margin: 6px 0 46px;
@@ -19,6 +19,6 @@
     .header__sign {
         font-size: 14px;
         line-height: 17px;
-        margin-right: 27px;
+        margin: 18px auto 40px;
     }
 }

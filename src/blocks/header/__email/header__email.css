@@ -18,8 +18,6 @@
         text-align: right;
         color: #FFFFFF;
         align-self: flex-end;
-        position: absolute;
-        top: -20px;
-        margin: 6px 24px 46px auto;
+        margin: 0 auto 0;
     }
 }
