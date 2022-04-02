@@ -4,6 +4,7 @@ import Header from './Header';
 import MainPage from './MainPage.js'
 import ImagePopup from "./ImagePopup";
 import api from '../utils/Api';
+import auth from '../utils/Auth';
 import EditProfilePopup from '../components/EditProfilePopup';
 import EditAvatarPopup from '../components/EditAvatarPopup';
 import AddPlacePopup from '../components/AddPlacePopup';
@@ -60,32 +61,36 @@ function App() {
 
         return () => document.removeEventListener("keydown", handleEscClose);
     }, []);
-
-    function tokenCheck() {
-        const jwt = localStorage.getItem('token');
-        if (jwt) {
-            api.getContent(jwt)
-                .then((res) => {
-                    if (res) {
-                        setEmail(res.data.email);
-                        setLoggedIn(true);
-                        history.push('/');
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-    }
-
     useEffect(() => {
-        Promise.all([api.getUserInfo(), api.getInitialCards()])
-            .then(([userData, cards]) => {
-                setCurrentUser(userData);
-                setCards(cards);
-            })
-            .catch(err => console.log(err));
-        tokenCheck();
+        function tokenCheck() {
+            const jwt = localStorage.getItem('token');
+            if (jwt) {
+                auth.getContent(jwt)
+                    .then((res) => {
+                        if (res) {
+                            setEmail(res.data.email);
+                            setLoggedIn(true);
+                            history.push('/');
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+        }
+
+        tokenCheck()
+    }, []);
+    useEffect(() => {
+        if (setLoggedIn)
+            Promise.all([api.getUserInfo(), api.getInitialCards()])
+                .then(([userData, cards]) => {
+                    setCurrentUser(userData);
+                    setCards(cards);
+
+                })
+                .catch(err => console.log(err));
+
     }, []);
 
     const handleUpdateUser = (res) => {
@@ -142,7 +147,7 @@ function App() {
     }
 
     function handleRegSubmit(email, password) {
-        api.register(email, password)
+        auth.register(email, password)
             .then(() => {
                 setInfoTooltipOpen(true);
                 setDataInfoTooltip({text: 'Вы успешно зарегистрировались', image: regDone});
@@ -160,6 +165,37 @@ function App() {
         setEmail(email);
     }
 
+    const [password, setPassword] = useState('');
+
+    function handleEmailChange(e) {
+        setEmail(e.target.value);
+    }
+
+    function handlePasswordChange(e) {
+        setPassword(e.target.value);
+    }
+
+    function onLogin(e) {
+        e.preventDefault();
+        if (!email || !password) {
+            return;
+        }
+        auth.login(email, password)
+            .then((data) => {
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    setEmail('');
+                    setPassword('');
+                    handleLogin(email, true);
+                    history.push('/');
+                }
+            })
+            .catch((err) => {
+                authFall();
+                console.log(err);
+            });
+    }
+
     return (
         <div className='root'>
             <CurrentUserContext.Provider value={currentUser}>
@@ -173,7 +209,9 @@ function App() {
                             </Route>
                             <Route path="/sign-in">
                                 <Header text='Регистрация' link='/sign-up'/>
-                                <Login handleLogin={handleLogin} authFall={authFall}/>
+                                <Login
+                                    handleEmailChange={handleEmailChange} handlePasswordChange={handlePasswordChange}
+                                    onLogin={onLogin} email={email} password={password}/>
                             </Route>
                             <ProtectedRoute
                                 path="/"
@@ -213,7 +251,8 @@ function App() {
                         card={selectedCard}
                         onClose={closeAllPopups}
                     />
-                    <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} caption={dataInfoTooltip.text} img={dataInfoTooltip.image}/>
+                    <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} caption={dataInfoTooltip.text}
+                                 img={dataInfoTooltip.image}/>
                 </div>
 
             </CurrentUserContext.Provider>

@@ -10,13 +10,13 @@ function PopupWithForm({title, name, children, isOpen,onSubmit, onClose}) {
                 <button className="popup__closebutton" id="profile-close" type="button" onClick={onClose}>
                     <img className="popup__closebutton-image" alt="закрыть" src={closeBtn}/>
                 </button>
-                <form className="form" id="form-edit" name={name} onSubmit={onSubmit}>
+                <form className="form"  name={name} onSubmit={onSubmit}>
                     <div className="form__header">
                         <h2 className="form__title">{title}</h2>
                     </div>
                     {children}
 
-                    <button className="form__buttonsave form__buttonsave_type_save" id="profile-button"
+                    <button className="form__buttonsave form__buttonsave_type_save"
                             type="submit">Сохранить
                     </button>
                 </form>

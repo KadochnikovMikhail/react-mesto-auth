@@ -1,37 +1,9 @@
-import React, {useState} from "react";
-import { useHistory } from 'react-router-dom';
-import api from '../utils/Api.js'
+import React from "react";
 
-function Login({handleLogin, authFall}){
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const history = useHistory();
-    function handleEmailChange(e){
-        setEmail(e.target.value);
-    }
-    function handlePasswordChange(e){
-        setPassword(e.target.value);
-    }
-    function onLogin(e){
-        e.preventDefault();
-        if (!email || !password){
-            return;
-        }
-        api.login(email, password)
-            .then((data)=>{
-                if (data.token){
-                    localStorage.setItem('token', data.token);
-                    setEmail('');
-                    setPassword('');
-                    handleLogin(email, true);
-                    history.push('/');
-                }
-            })
-            .catch((err)=>{
-                authFall();
-                console.log(err);
-            });
-    }
+
+function Login({onLogin, handleEmailChange, handlePasswordChange, email, password}){
+
+
     return (
         <div className='sign'>
             <form className="sign__form" name='login'>

@@ -1,10 +1,9 @@
-import {address, token, addressAuth} from './constants.js';
+import {address, token} from './constants.js';
 class Api {
-    constructor(address, token, addressAuth) {
+    constructor(address, token) {
 
         this._address = address
         this._token = token;
-        this._addressAuth = addressAuth;
     }
 
 
@@ -119,47 +118,8 @@ class Api {
             .then(this._handleResponse)
     }
 
-    register(email, password){
-        return fetch(`${this._addressAuth}/signup`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "password": password,
-                "email": email
-            })
-        })
-            .then(this._handleResponse);
-    };
 
-    login(email, password){
-        return fetch(`${this._addressAuth}/signin`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "password": password,
-                "email": email
-            })
-        })
-            .then(this._handleResponse);
-    };
-
-    getContent(token) {
-        return fetch(`${this._addressAuth}/users/me`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-            .then(res => res.json())
-            .then(data => data)
-    }
 }
 
-    const api = new Api(address, token, addressAuth)
+    const api = new Api(address, token)
 export default api;
