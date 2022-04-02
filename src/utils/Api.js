@@ -1,8 +1,9 @@
+import {address, token} from './constants.js';
 class Api {
-    constructor({address, headers}) {
+    constructor(address, token) {
 
         this._address = address
-        this._headers = headers
+        this._token = token;
     }
 
 
@@ -19,7 +20,9 @@ class Api {
 
         return fetch(`${this._address}/cards`, {
 
-            headers: this._headers
+            headers: {
+                authorization: this._token
+            }
         })
             .then((response) => this._handleResponse(response))
     }
@@ -28,7 +31,9 @@ class Api {
     getUserInfo() {
         return fetch(`${this._address}/users/me`, {
 
-            headers: this._headers
+            headers: {
+                authorization: this._token
+            }
         })
             .then((response) => this._handleResponse(response))
     }
@@ -38,7 +43,10 @@ class Api {
         return fetch(`${this._address}/users/me`, {
 
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
 
                 name: userData.name,
@@ -54,7 +62,10 @@ class Api {
         return fetch(`${this._address}/cards`, {
 
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
 
                 name: cardObject.name,
@@ -70,7 +81,10 @@ class Api {
         return fetch(`${this._address}/cards/${id}`, {
 
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
         })
             .then((response) => this._handleResponse(response))
     }
@@ -80,7 +94,10 @@ class Api {
         return fetch(`${this._address}/users/me/avatar`, {
 
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
 
                 avatar: userData,
@@ -93,18 +110,16 @@ class Api {
     changeLikeCardStatus(id, isLiked) {
         return fetch(`${this._address}/cards/${id}/likes`, {
             method: isLiked ? 'PUT' : 'DELETE',
-            headers: this._headers
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
         })
             .then(this._handleResponse)
     }
+
+
 }
 
-    const api = new Api({
-
-    address: 'https://mesto.nomoreparties.co/v1/cohort-35',
-    headers: {
-        authorization: '5e183b19-cf6d-4424-b043-3b49b544e6cf',
-        'Content-Type': 'application/json'
-    }
-})
+    const api = new Api(address, token)
 export default api;

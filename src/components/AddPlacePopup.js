@@ -50,7 +50,7 @@ function EditPlacePopup({isOpen, onClose, onAddPlace}) {
                         minLength="2"
                         maxLength="30"
                     />
-                    <span id="title-error" className="error"></span>
+                    <span id="title-error" className="error"/>
                     <input
                         id="link"
                         className="form__data"
@@ -61,7 +61,7 @@ function EditPlacePopup({isOpen, onClose, onAddPlace}) {
                         onChange={handleCardPhotoLinkChange}
                         required
                     />
-                    <span id="link-error" className="error"></span>
+                    <span id="link-error" className="error"/>
                 </>
             }
         />
